@@ -1,5 +1,7 @@
 export const print1 = (storeAPI) => (next) => (action) => {
   console.log('1')
+  console.log('action.type')
+  console.log(action.type)
   return next(action)
 }
 
@@ -12,3 +14,13 @@ export const print3 = (storeAPI) => (next) => (action) => {
   console.log('3')
   return next(action)
 }
+
+export const loggerMiddleware = (storeAPI) => (next) => (action) => {
+  console.log('dispatching', action)
+  let result = next(action)
+  console.log('next state', storeAPI.getState())
+  console.log('result')
+  console.log(result)
+  return result
+}
+

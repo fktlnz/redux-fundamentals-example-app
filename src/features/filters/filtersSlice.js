@@ -8,7 +8,7 @@ const initialState = {
     colors: []
 }
 
-export default appReducer = (state=initialState, action) => {
+const appReducer = (state=initialState, action) => {
     switch(action.type) {
         case 'filters/statusFilterChanged': {
             return {
@@ -27,3 +27,5 @@ export default appReducer = (state=initialState, action) => {
             return state
     }
 }
+
+export default appReducer

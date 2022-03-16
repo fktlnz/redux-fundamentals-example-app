@@ -9,13 +9,13 @@ const initialState = [
     { id: 2, text: 'Build something fun!', completed: false, color: 'blue' }
 ]
   
-export default appReducer = (state=initialState, action) => {
+const appReducer = (state=initialState, action) => {
     switch(action.type) {
         case "todos/todoAdded": {
             return [
                 ...state,
                 {
-                    id: nextTodoId(state.todos),
+                    id: nextTodoId(state),
                     text: action.payload,
                     completed: false
                 }
@@ -40,3 +40,5 @@ export default appReducer = (state=initialState, action) => {
             return state
     }
 }
+
+export default appReducer
