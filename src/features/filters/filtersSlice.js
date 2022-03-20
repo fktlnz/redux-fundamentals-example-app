@@ -1,31 +1,53 @@
-function nextTodoId(todos) {
-  const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1)
-  return maxId + 1
-}
-
-const initialState = {
-    status: 'All',
-    colors: []
-}
-
-const appReducer = (state=initialState, action) => {
-    switch(action.type) {
-        case 'filters/statusFilterChanged': {
-            return {
-                // Copy the whole state
-                ...state,
-                // Overwrite the filters value
-                filters: {
-                // copy the other filter fields
-                ...state.filters,
-                // And replace the status field with the new value
-                status: action.payload
-                }
-            }    
+export const StatusFilters = {
+    All: 'all',
+    Active: 'active',
+    Completed: 'completed',
+  }
+  
+  const initialState = {
+    status: StatusFilters.All,
+    colors: [],
+  }
+  
+  export default function filtersReducer(state = initialState, action) {
+    switch (action.type) {
+      case 'filters/statusFilterChanged': {
+        return {
+          // Again, one less level of nesting to copy
+          ...state,
+          status: action.payload,
         }
-        default: 
+      }
+      case 'filters/colorFilterChanged': {
+        let { color, changeType } = action.payload
+        const { colors } = state
+  
+        switch (changeType) {
+          case 'added': {
+            if (colors.includes(color)) {
+              // This color already is set as a filter. Don't change the state.
+              return state
+            }
+  
+            return {
+              ...state,
+              colors: state.colors.concat(color),
+            }
+          }
+          case 'removed': {
+            return {
+              ...state,
+              colors: state.colors.filter(
+                (existingColor) => existingColor !== color
+              ),
+            }
+          }
+          default:
             return state
+        }
+      }
+      default:
+        return state
     }
-}
-
-export default appReducer
+  }
+  
